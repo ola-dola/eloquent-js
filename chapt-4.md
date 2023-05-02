@@ -1,4 +1,4 @@
-# Chapter 3: Data Structures: Objects and Arrays
+# Chapter 4: Data Structures: Objects and Arrays
 
 > **Numbers, Booleans, and strings** are the atoms that **data structures** are built from. Think about the distinction.
 
