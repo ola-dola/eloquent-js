@@ -118,7 +118,165 @@ console.log(temp.celsius);
 > A static method (or static function) is a method defined as a member of an object but is accessible directly from an API object's constructor, rather than from an object instance created via the constructor.
 
 - Methods called on object instances are called instance methods.
-<br>
+  <br>
 
 ## Exercises
 
+```javascript
+/*
+1: A vector type
+Write a class Vec that represents a vector in two-dimensional space. It takes x and y parameters (numbers), which it should save to properties of the same name.
+
+Give the Vec prototype two methods, plus and minus, that take another vector as a parameter and return a new vector that has the sum or difference of the two vectors’ (this and the parameter) x and y values.
+
+Add a getter property length to the prototype that computes the length of the vector—that is, the distance of the point (x, y) from the origin (0, 0).
+*/
+
+class Vec {
+  constructor(x, y) {
+    this.x = x;
+    this.y = y;
+  }
+
+  plus(other) {
+    return new Vec(this.x + other.x, this.y + other.y);
+  }
+  minus(other) {
+    return new Vec(this.x - other.x, this.y - other.y);
+  }
+
+  get length() {
+    return Math.sqrt(this.x ** 2 + this.y ** 2);
+  }
+}
+
+console.log(new Vec(1, 2).plus(new Vec(2, 3)));
+// → Vec{x: 3, y: 5}
+console.log(new Vec(1, 2).minus(new Vec(2, 3)));
+// → Vec{x: -1, y: -1}
+console.log(new Vec(3, 4).length);
+// → 5
+```
+
+<br>
+
+```javascript
+/*
+2: Group
+Write a class called Group (since Set is already taken). Like Set, it has add, delete, and has methods. Its constructor creates an empty group, add adds a value to the group (but only if it isn’t already a member), delete removes its argument from the group (if it was a member), and has returns a Boolean value indicating whether its argument is a member of the group.
+
+Give the class a static from method that takes an iterable object as argument and creates a group that contains all the values produced by iterating over it.
+
+More details: https://eloquentjavascript.net/06_object.html#i_rpYp9Ou4LG
+*/
+
+class Group {
+  constructor() {
+    this.store = [];
+  }
+
+  add(val) {
+    if (!this.has(val)) {
+      this.store.push(val);
+    }
+  }
+
+  delete(val) {
+    this.store = this.store.filter((ele) => ele !== val);
+  }
+
+  has(val) {
+    return this.store.includes(val);
+  }
+
+  static from(iterable) {
+    let group = new Group();
+    for (const ele of iterable) {
+      group.add(ele);
+    }
+
+    return group;
+  }
+
+  toString() {
+    return this.store;
+  }
+}
+
+let group = Group.from([10, 10, 20, 20, 30, 40]);
+console.log(group.has(10));
+// → true
+console.log(group);
+// → 10,20,30,40
+console.log(group.has(30));
+// → false
+group.add(10);
+group.delete(10);
+console.log(group.has(10));
+// → false
+console.log(group);
+// → 20,30,40
+```
+
+<br>
+
+```javascript
+/*
+3: Iterable Groups
+Make the Group class from the previous exercise iterable. Refer to the section about the iterator interface earlier in the chapter if you aren’t clear on the exact form of the interface anymore.
+
+https://eloquentjavascript.net/06_object.html#i_djD3XDJ27V
+*/
+
+// This solution requiers the Group class defined in Exercise 2 above.
+class GroupIterator {
+  constructor(group) {
+    this.group = group;
+    this.current = 0;
+  }
+
+  next() {
+    if (this.current == this.group.store.length) {
+      return { done: true };
+    }
+    let value = this.group.store[this.current];
+    this.current += 1;
+    return { value, done: false };
+  }
+}
+
+Group.prototype[Symbol.iterator] = function () {
+  return new GroupIterator(this);
+};
+
+for (let value of Group.from(["a", "b", "c"])) {
+  console.log(value);
+}
+// → a
+// → b
+// → c
+```
+
+<br>
+
+```javascript
+/*
+4: Borrowing a Method
+Earlier in the chapter I mentioned that an object’s hasOwnProperty can be used as a more robust alternative to the in operator when you want to ignore the prototype’s properties. But what if your map needs to include the word "hasOwnProperty"? You won’t be able to call that method anymore because the object’s own property hides the method value.
+
+Can you think of a way to call hasOwnProperty on an object that has its own property by that name?
+*/
+
+let map = { one: true, two: true, hasOwnProperty: true };
+
+// Fix this call
+//console.log(map.hasOwnProperty("one"));
+console.log(Object.prototype.hasOwnProperty.call(map, "one"));
+// → true
+
+/*
+HINT: Remember that methods that exist on plain objects come from Object.prototype.
+
+Also remember that you can call a function with a specific this binding by using its call method.
+*/
+```
