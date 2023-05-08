@@ -22,7 +22,27 @@ const square = function (x) {
 
 ## Closures
 
-> This feature—being able to reference a specific instance of a local binding in an enclosing scope—is called closure. A function that references bindings from local scopes around it is called a closure. This behavior not only frees you from having to worry about lifetimes of bindings but also makes it possible to use function values in some creative ways.
+> Being able to reference a specific instance of a local binding in an enclosing scope—is called closure. A function that references bindings from local scopes around it is called a closure. This behavior not only frees you from having to worry about lifetimes of bindings but also makes it possible to use function values in some creative ways.
+
+> A good mental model is to think of function values as containing both the code in their body and the environment in which they are created. When called, the function body sees the environment in which it was created, not the environment in which it is called.
+
+```javascript
+function multiplier(factor) {
+  // The inline function below being returned is a  closure.
+  // It references bindings from the local scopes around it, in this case, `factor`.
+  return number => number * factor;
+}
+
+let twice = multiplier(2);
+console.log(twice(5));
+// → 10
+```
+
+- In the example, multiplier is called and creates an environment in which its factor parameter is bound to 2. The function value it returns, which is stored in twice, remembers this environment. So when that is called, it multiplies its argument by 2.
+
+> https://eloquentjavascript.net/03_functions.html#h_hOd+yVxaku
+
+<br>
 
 ## Recursion
 
@@ -36,7 +56,7 @@ const square = function (x) {
 
 <br>
 
-> A key aspect in understanding functions is understanding scopes. Each block creates a new scope. Parameters and bindings declared in a given scope are local and not visible from the outside. Bindings declared with var behave differently—they end up in the nearest function scope or the global scope.
+> A key aspect in understanding functions is understanding scopes. Each block creates a new scope. Parameters and bindings declared in a given scope are local and not visible from the outside. __Bindings declared with var behave differently—they end up in the nearest function scope or the global scope__.
 
 ## Exercises
 

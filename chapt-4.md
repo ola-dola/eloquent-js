@@ -56,7 +56,7 @@ function range(start, end, step = start < end ? 1 : -1) {
 function sum(nums) {
   let total = 0;
 
-  for (let num of nums) {
+  for (const num of nums) {
     total += num;
   }
 
@@ -115,7 +115,7 @@ console.log(arrayValue);
 ```javascript
 /*
 3: Linked list helper functions.
-  Long problem description. See https://eloquentjavascript.net/04_data.html#i_nSTX34CM1M for details
+Long problem description. See https://eloquentjavascript.net/04_data.html#i_nSTX34CM1M for details
 */
 
 function arrayToList(arr) {
@@ -135,10 +135,11 @@ function arrayToList(arr) {
   return list;
 
   // CodiumAI generated.
-  // const list = arr.reduceRight((rest, value) => {
-  //   ({ value, rest }), null;
-  // });
+  // function arrayToList(arr) {
+  // const list = arr.reduceRight((rest, value) => ({ value, rest }), null);
   // return list;
+}
+
 }
 
 function listToArray(list) {

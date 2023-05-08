@@ -67,7 +67,6 @@ Implement every as a function that takes an array and a predicate function as pa
 */
 
 function every(array, test) {
-  // Your code here.
   for (const ele of array) {
     if (!test(ele)) return false
   }

@@ -9,19 +9,28 @@
 > Such program pieces are modeled using objects. Their interface consists of a specific set of methods and properties. Properties that are part of the interface are called public. The others, which outside code should not be touching, are called private.
 
 - Javascript does not provide an inbuilt way to distinguish between public and private properties. It just makes private properties inaccessible by default.
-- Developer can distinguish private ppties by including \_ at the beginning of the property/method name.
+- Developer can distinguish private ppties by including _ at the beginning of the property/method name.
 
 > Separating interface from implementation is a great idea. It is usually called **encapsulation**.
 
 ## Prototypes
 
-> So who is the prototype of that empty object? It is the great ancestral prototype, the entity behind almost all objects, Object.prototype.
+> Who is the prototype of empty object? It is the great ancestral prototype, the entity behind almost all objects, Object.prototype.
 
 > You can use Object.create to create an object with a specific prototype.
 
+## Maps
+
+> Using plain objects as maps is dangerous, because they inherit extra properties from the Object.prototype which are at best not needed and at worst could lead to clashing properties. There are several possible ways to avoid this problem. First, it is possible to create objects with no prototype. If you pass null to Object.create, the resulting object will not derive from Object.prototype and can safely be used as a map.
+
+```javascript
+console.log("toString" in Object.create(null));
+// → false
+```
+
 ## Classes
 
-> So JavaScript classes are constructor functions with a prototype property. That is how they work, and until 2015, that was how you had to write them.
+> JavaScript classes are constructor functions with a prototype property(actually, all functions have a prototype ppty. Constructor functions just have extra methods added to the prototype by the programmer). That is how they work, and until 2015, that was how you had to write them.
 
 ```javascript
 // Pre 2015
@@ -62,9 +71,8 @@ Rabbit.prototype.toString = () => {
 let jaguar = new Rabbit("foxy");
 
 console.log(String(jaguar));
-// → a black rabbit
+// → a black rabbit 
 ```
-
 - When a piece of code is written to work with objects that have a certain interface—in this case, a toString method—any kind of object that happens to support this interface can be plugged into the code, and it will just work.
 
 - This technique is called polymorphism. Polymorphic code can work with values of different shapes, as long as they support the interface it expects.
@@ -228,7 +236,7 @@ Make the Group class from the previous exercise iterable. Refer to the section a
 https://eloquentjavascript.net/06_object.html#i_djD3XDJ27V
 */
 
-// This solution requiers the Group class defined in Exercise 2 above.
+// This solution requires the Group class defined in Exercise 2 above.
 class GroupIterator {
   constructor(group) {
     this.group = group;
@@ -262,7 +270,7 @@ for (let value of Group.from(["a", "b", "c"])) {
 ```javascript
 /*
 4: Borrowing a Method
-Earlier in the chapter I mentioned that an object’s hasOwnProperty can be used as a more robust alternative to the in operator when you want to ignore the prototype’s properties. But what if your map needs to include the word "hasOwnProperty"? You won’t be able to call that method anymore because the object’s own property hides the method value.
+Earlier in the chapter I mentioned that an object’s hasOwnProperty can be used as a more robust alternative to the `in` operator when you want to ignore the prototype’s properties. But what if your map needs to include the word "hasOwnProperty"? You won’t be able to call that method anymore because the object’s own property hides the method value.
 
 Can you think of a way to call hasOwnProperty on an object that has its own property by that name?
 */
@@ -277,6 +285,6 @@ console.log(Object.prototype.hasOwnProperty.call(map, "one"));
 /*
 HINT: Remember that methods that exist on plain objects come from Object.prototype.
 
-Also remember that you can call a function with a specific this binding by using its call method.
+Also remember that you can call a function with a specific `this` binding by using its call method.
 */
 ```
