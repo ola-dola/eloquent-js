@@ -80,6 +80,8 @@
 
 Unlike methods such as `getElementsByTagName`, the object returned by `querySelectorAll` is not live. It won’t change when you change the document. It is **still not a real array**, though, so you still need to call Array.from if you want to treat it like one. `querySelector` works the same way.
 
+## Exercises
+
 ```javascript
 /*
 1: Build a Table
@@ -186,6 +188,4 @@ To find the tag name of an element, use its nodeName property. But note that thi
   console.log(byTagName(para, "span").length);
   // → 2
 </script>
-
-
 ```
