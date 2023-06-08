@@ -33,14 +33,13 @@
       let currentYear = new Date().getFullYear()
       return currentYear - person.year >= 19
     });
-
     console.log(adults)
+
     // Array.prototype.every() // is everyone 19 or older?
     let allAdults = people.every(person => {
-      let currentYear = new Date().getFullYear()
+      let currentYear = (new Date()).getFullYear()
       return currentYear - person.year >= 19
     });
-
     console.log(allAdults)
 
     // Array.prototype.find()
